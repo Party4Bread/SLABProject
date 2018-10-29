@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899-12-30 00:00:00.000.381,=C:\Users\david0926\Documents\Embarcadero\Studio\Projects\Project1PCH1.h</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.102,C:\Users\david0926\Documents\Embarcadero\Studio\Projects\Project1PCH1.h=C:\Users\david0926\Desktop\SLABProject\HTTPRequest\Project1PCH1.h</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.589,C:\Users\david0926\Documents\Embarcadero\Studio\Projects\Unit1.fmx=C:\Users\david0926\Desktop\SLABProject\HTTPRequest\Unit1.fmx</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.588,C:\Users\david0926\Documents\Embarcadero\Studio\Projects\Unit1.cpp=C:\Users\david0926\Desktop\SLABProject\HTTPRequest\Unit1.cpp</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.966,C:\Users\david0926\Documents\Embarcadero\Studio\Projects\Project1.cbproj=C:\Users\david0926\Desktop\SLABProject\HTTPRequest\Project1.cbproj</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.588,C:\Users\david0926\Documents\Embarcadero\Studio\Projects\Unit1.h=C:\Users\david0926\Desktop\SLABProject\HTTPRequest\Unit1.h</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.473,=C:\Users\david0926\Documents\Embarcadero\Studio\Projects\Unit1.cpp</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -1,0 +1,2 @@
+python_btnnext_btnno_btnok_btnupload_btncompile_btn
+scanf
