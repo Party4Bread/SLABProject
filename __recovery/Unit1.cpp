@@ -250,6 +250,8 @@ void __fastcall TForm1::CodeEditorKeyUp(TObject *Sender, WORD &Key, System::Wide
 void __fastcall TForm1::CodeEditorKeyDown(TObject *Sender, WORD &Key, System::WideChar &KeyChar,
           TShiftState Shift)
 {
+
+	ShowMessage(Key);
 //    if(Key == 13)
 //	{
 //		int TextPos = CodeEditor->PosToTextPos(CodeEditor->CaretPosition);
