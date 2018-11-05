@@ -19,9 +19,6 @@ Coordinates=10,300,88,51
 [client]
 Coordinates=255,287,41,33
 
-[Memo2]
-Coordinates=119,300,49,51
-
 [GroupBox1]
 Coordinates=248,10,70,51
 
@@ -51,4 +48,7 @@ Visible=True
 [DialogShadow]
 Coordinates=160,80,69,33
 Visible=True
+
+[CodeEditor]
+Coordinates=119,300,49,51
 

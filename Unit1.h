@@ -19,6 +19,7 @@
 #include <FMX.Memo.hpp>
 #include <FMX.ScrollBox.hpp>
 #include <FMX.Edit.hpp>
+#include <FMX.Dialogs.hpp>
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
@@ -29,7 +30,7 @@ __published:	// IDE-managed Components
 	TButton *CompileButton;
 	TLabel *Label2;
 	TMemo *Memo1;
-	TMemo *Memo2;
+	TMemo *CodeEditor;
 	TButton *UploadButton;
 	TStyleBook *StyleBook1;
 	TText *Text1;
@@ -40,10 +41,10 @@ __published:	// IDE-managed Components
 	TRectangle *Rectangle3;
 	TText *Text2;
 	TButton *LangButton;
-	TButton *Button3;
+	TButton *CButton;
 	TTimer *Timer1;
-	TButton *Button4;
-	TButton *Button5;
+	TButton *CppButton;
+	TButton *PythonButton;
 	TButton *NextButton;
 	TRectangle *Rectangle4;
 	TText *Text3;
@@ -52,13 +53,19 @@ __published:	// IDE-managed Components
 	TPanel *PanelInput;
 	TPanel *PanelOutput;
 	TMemo *Memo3;
-	void __fastcall Button1Click(TObject *Sender);
+	TMemo *OutputLoad;
+	TMemo *GetErrorMsg;
 	void __fastcall CompileButtonClick(TObject *Sender);
 	void __fastcall RunDialogNoButtonClick(TObject *Sender);
 	void __fastcall LangButtonClick(TObject *Sender);
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall InputCloseBtnClick(TObject *Sender);
 	void __fastcall InputNextBtnClick(TObject *Sender);
+	void __fastcall CButtonClick(TObject *Sender);
+	void __fastcall CppButtonClick(TObject *Sender);
+	void __fastcall PythonButtonClick(TObject *Sender);
+	void __fastcall CodeEditorKeyUp(TObject *Sender, WORD &Key, System::WideChar &KeyChar,
+          TShiftState Shift);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);

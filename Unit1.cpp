@@ -10,9 +10,10 @@
 #pragma resource "*.fmx"
 TForm1 *Form1;
 
-bool langEvent=true, onlangEvent;
+bool langEvent=true, onlangEvent=false;
 int gravity;
 int level;
+int lang = 0;
 
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
@@ -26,16 +27,14 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 	PanelOutput->Visible=false;
 	DialogShadow->Visible=false;
-    Button3->Visible=false;
-    Button4->Visible=false;
-    Button5->Visible=false;
+    CButton->Visible=false;
+    CppButton->Visible=false;
+    PythonButton->Visible=false;
     Timer1->Enabled=false;
+
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::Button1Click(TObject *Sender)
-{
-	//client->Connect();//
-}
+
 //---------------------------------------------------------------------------
 
 
@@ -57,18 +56,48 @@ void __fastcall TForm1::Button1Click(TObject *Sender)
 void __fastcall TForm1::CompileButtonClick(TObject *Sender)
 {
 
-    if(Pos("scanf", Memo2->Lines->Text)){
-    	PanelInput->Visible=true;
-		DialogShadow->Visible=true;
-    }
-    else{
-    	Memo2->Lines->SaveToFile("code.c");
-		system("gcc -O3 -std=c99 -Wall -Wextra -o c.exe code.c");
-    	system("cmd /c c.exe > output.txt");
+//    if(Pos("scanf", CodeEditor->Lines->Text)){
+//    	PanelInput->Visible=true;
+//		DialogShadow->Visible=true;
+//    }
+//    else{
+    if(lang==0){
+    	CodeEditor->Lines->SaveToFile("code_c.c", TEncoding::UTF8);        //입력한 코드를 저장
+		system("mode con:cols=15 lines=1 && gcc -O3 -std=c99 -Wall -Wextra -o first.exe code_c.c & cmd /c first.exe > output_c.txt");         //gcc를 이용해 실행파일 만들기
+        OutputLoad->Lines->LoadFromFile("output_c.txt");
 		PanelOutput->Visible=true;
 		DialogShadow->Visible=true;
-    	Text2->Text="실행 결과:\n\n*****\n****\n***\n**\n*\n\n\n\n계속하려면 아무 키나 누르세요...";
+        Text2->Text=OutputLoad->Text;
+
+
     }
+    else if(lang==1){
+    	CodeEditor->Lines->SaveToFile("code_cpp.cpp", TEncoding::UTF8);        //입력한 코드를 저장
+		system("mode con:cols=15 lines=1 && g++ -O3 -Wextra -o Cpp_Language.exe code_cpp.cpp & cmd /c Cpp_Language.exe > output_cpp.txt");         //gcc를 이용해 실행파일 만들기
+        OutputLoad->Lines->LoadFromFile("output_cpp.txt");
+		PanelOutput->Visible=true;
+		DialogShadow->Visible=true;
+        Text2->Text=OutputLoad->Text;
+    }
+    else if(lang==2){
+    	CodeEditor->Lines->SaveToFile("code_py.py", TEncoding::UTF8);        //입력한 코드를 저장
+		system("mode con:cols=15 lines=1 && python code_py.py 1> output_py.txt 2>error_py.txt");        //<input.txt
+        GetErrorMsg->Lines->LoadFromFile("error_py.txt");
+		if(GetErrorMsg->Text.Length()>0)
+		{
+			ShowMessage(GetErrorMsg->Text);
+		}
+		else
+		{
+			OutputLoad->Lines->LoadFromFile("output_py.txt");
+		}
+		PanelOutput->Visible=true;
+		DialogShadow->Visible=true;
+        Text2->Text=OutputLoad->Text;
+    }
+
+    	
+//    }
 
 }
 //---------------------------------------------------------------------------
@@ -83,6 +112,7 @@ void __fastcall TForm1::RunDialogNoButtonClick(TObject *Sender)
 {
 	PanelOutput->Visible=false;
 	DialogShadow->Visible=false;
+    OutputLoad->Lines->Clear();
 }
 //---------------------------------------------------------------------------
 
@@ -91,13 +121,16 @@ void __fastcall TForm1::RunDialogNoButtonClick(TObject *Sender)
 void __fastcall TForm1::LangButtonClick(TObject *Sender)
 {
 
-    Button3->Visible=true;
-    Button4->Visible=true;
-    Button5->Visible=true;
-    gravity = 400;
-	level = 0;
+    if(!onlangEvent){
+        CButton->Visible=true;
+    	CppButton->Visible=true;
+    	PythonButton->Visible=true;
+    	onlangEvent=true;
+    	gravity = 400;
+		level = 0;
+    	Timer1->Enabled=true;
+    }
 
-    Timer1->Enabled=true;
 
 
 }
@@ -108,27 +141,28 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 
 
     if(langEvent){
-    	Button3->Position->X += (+(gravity/100));
-    	Button4->Position->X += (3+(gravity/100));
-    	Button5->Position->X += (6+(gravity/100));
+    	CButton->Position->X += (1+(gravity/100));
+    	CppButton->Position->X += (4+(gravity/100));
+    	PythonButton->Position->X += (7+(gravity/100));
     }
     else
     {
-        Button3->Position->X -= ((gravity/100));
-    	Button4->Position->X -= (3+(gravity/100));
-    	Button5->Position->X -= (6+(gravity/100));
+        CButton->Position->X -= (1+(gravity/100));
+    	CppButton->Position->X -= (4+(gravity/100));
+    	PythonButton->Position->X -= (7+(gravity/100));
     }
 
     if(level++>30){
     	langEvent=!langEvent;
+        onlangEvent=false;
     	Timer1->Enabled=false;
 
     }
-    if(level>10) gravity-=1;
-    if(level>20) gravity-=4;
-    if(level>25) gravity-=8;
-//    if(level>35) gravity-=4;
-//    if(level>40) gravity-=4;
+    //if(level>10) gravity-=1;
+    if(level>20) gravity-=2;
+    if(level>25) gravity-=4;
+    if(level>35) gravity-=6;
+    if(level>40) gravity-=8;
 //    if(level>45) gravity-=16;
 
 }
@@ -148,7 +182,7 @@ void __fastcall TForm1::InputNextBtnClick(TObject *Sender)
 {
     PanelInput->Visible=false;
     DialogShadow->Visible=false;
-    Memo2->Lines->SaveToFile("code.c");
+    CodeEditor->Lines->SaveToFile("code.c");
     system("gcc -O3 -std=c99 -Wall -Wextra -o c.exe code.c");
     system("cmd /c c.exe > output.txt");
     PanelOutput->Visible=true;
@@ -158,4 +192,58 @@ void __fastcall TForm1::InputNextBtnClick(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
+
+
+
+void __fastcall TForm1::CButtonClick(TObject *Sender)
+{
+    lang = 0;
+    CodeEditor->Lines->Text="#include <stdio.h>\n\nint main()\n{\n\n\n\n\n}";
+    if(!onlangEvent){
+    	onlangEvent=true;
+    	gravity = 400;
+		level = 0;
+    	Timer1->Enabled=true;
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::CppButtonClick(TObject *Sender)
+{
+    lang = 1;
+	CodeEditor->Lines->Text="#include <iostream>\nusing namespace std;\n\nint main()\n{\n\n\n\n    return 0;\n}";
+    if(!onlangEvent){
+    	onlangEvent=true;
+    	gravity = 400;
+		level = 0;
+    	Timer1->Enabled=true;
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::PythonButtonClick(TObject *Sender)
+{
+    lang = 2;
+    CodeEditor->Lines->Text="print(\"Hello World\")";
+    if(!onlangEvent){
+    	onlangEvent=true;
+    	gravity = 400;
+		level = 0;
+    	Timer1->Enabled=true;
+    }
+}
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::CodeEditorKeyUp(TObject *Sender, WORD &Key, System::WideChar &KeyChar,
+          TShiftState Shift)
+{
+	if(Key==9)   //탭 키를 눌렀을 때
+	{
+		int tab = CodeEditor->PosToTextPos(CodeEditor->CaretPosition)+4;       //커서 위치 값 저장
+		CodeEditor->Text = CodeEditor->Text.Insert("    ",CodeEditor->PosToTextPos(CodeEditor->CaretPosition)+1); //4칸 띄우기 -> 즉, tab 기능
+		CodeEditor->CaretPosition = CodeEditor->TextPosToPos(tab);             //커서를 현재 위치에 두기
+	}
+}
+//---------------------------------------------------------------------------
 
